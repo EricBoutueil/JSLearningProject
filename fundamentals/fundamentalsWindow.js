@@ -5,21 +5,41 @@
  ***/
 addChapter("fundamentalsWindow", "WINDOW METHODS");
 
-// // Alert
+/** Alert **/
 // alert('Hello World')
 
-// // Prompt --> same as alert() + take an input from the user
+/** Prompt **/
+// Same as alert() + take an input from the user
 // const input = prompt()
 // val = input
 
-// // Confirm
+/** Confirm **/
 // if(confirm('Are you sure?')){
 //   val = 'YES'
 // } else {
 //   val = 'NO'
 // }
 
-// .clearInterval / .clearTimeout / .close + all events
+// ... .close + all events
+
+/** Timeout **/
+// Executing a function once after x ms
+const timeoutID = setTimeout(() => alert("Hello"), 1000);
+// Cancels a timeout based on its ID
+clearTimeout(timeoutID);
+
+/** Interval **/
+// Executing a function in a loop every x ms
+const intervalID = setInterval(() => console.log("Hello"), 1000);
+// Cancels an interval based on its ID
+clearInterval(intervalID); // to clear console
+
+// Stop interval loop after x ms
+const timeoutForInterval = setTimeout(function() {
+  clearInterval(intervalID);
+  console.log("clearInterval now");
+}, 5000);
+clearTimeout(timeoutForInterval) // to clear console
 
 /***
  * WINDOW PROPERTIES

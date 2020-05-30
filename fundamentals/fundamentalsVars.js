@@ -249,16 +249,16 @@ val = Math.abs(-3);
 val = Math.pow(5, 2);
 val = Math.min(2, 33, 4, 55, -2);
 val = Math.max(2, 33, 4, 55, -2);
-val = Math.random();
+val = Math.random(); // 0.yxz --> between 0 included and 1 excluded
 
-val = Math.floor(Math.random() * 10 + 1); // ==> random 1 - 10
+val = Math.floor(Math.random() * 10 + 1); // ==> random 1 incl. to 10 excl.
 
 /***
  * STRING METHODS & CONCATENATION
  ***/
 addChapter("fundamentalsVars", "STRING METHODS & CONCATENATION");
 
-const firstName = "John";
+const firstName = "Johnoh";
 const lastName = "Smith";
 const age = 35;
 
@@ -288,20 +288,20 @@ val = firstName[2]; // 'h'
 
 // string.indexOf(value)
 val = firstName.concat(" ", lastName).indexOf("h"); // 2 --> first
-val = firstName.concat(" ", lastName).lastIndexOf("h"); // 9 --> last
+val = firstName.concat(" ", lastName).lastIndexOf("h"); // 11 --> last
 val = firstName.concat(" ", lastName).lastIndexOf("z"); // -1 if no result
 
 // string.charAt(index)
 val = firstName.charAt(2); // h
 // Get last char
-val = firstName.charAt(firstName.length - 1); // n
+val = firstName.charAt(firstName.length - 1); // h
 
 // string.substring(start, end)
 val = firstName.substring(3, -1); // 'Joh'
 // string.slice(start, end)
-val = firstName.slice(-3, -2); // 'o' (Note: >< array.splice(start, length))
+val = firstName.slice(-3, -2); // 'n' (Note: >< array.splice(start, length))
 // string.substr(start, length)
-val = firstName.substr(-3, 1); // 'o'
+val = firstName.substr(-3, 1); // 'n'
 /* 
   substring() vs slice():
 
@@ -320,14 +320,32 @@ val = firstName.substr(-3, 1); // 'o'
 */
 
 // string.split(value) ==> array --> used for strings (' '), tags (',')...
-val = firstName.split("o"); // ['J', 'hn']
+val = firstName.split("o"); // ['J', 'hn', 'h']
 bool = Array.isArray(val); // true
 
 // string.replace(finding, replace)
-val = firstName.replace("oh", "ua"); // Juan
+val = firstName.replace("oh", "ua"); // Juanoh
 
-// string.inclues(value)
+// string.includes(value)
 val = firstName.includes("oh"); // true
+
+/***
+ * REGEXP
+ ***/
+addChapter("fundamentalsVars", "REGEXP");
+// Used for matching text with a pattern
+const myPattern = /oh/;
+
+/** Methods applied on patterns **/
+val = myPattern.constructor; // RegExp() function declaration
+val = myPattern.exec(firstName); // array with data of 1st match || null
+val = myPattern.test(firstName); // true || false
+
+/** Methods applied on strings **/
+val = firstName.match(myPattern); // same array || null as .exec
+val = firstName.search(myPattern); // index || -1
+val = firstName.replace(myPattern, "ua"); // Juanoh
+val = firstName.split(myPattern); //["J", "n", ""] --> exclude pattern
 
 /***
  * TEMPLATE LITERALS = TEMPLATE STRINGS = ``
@@ -384,17 +402,32 @@ function over50(num) {
 }
 val = myArray.find(over50); // 123
 
-/** Mutating arrays **/
-// array.push(value) --> add on to end
+/*** MUTATING ARRAYS ***/
+/** array.push(value) **/
+
+// add on to end
 val = myArray.push("end"); // val === 9 >< myArray ==> [..., 'end']
-// array.unshift(value) --> add on to front
+
+/** array.unshift(value) **/
+
+// add on to front
 val = myArray.unshift("front"); // val === 10 >< myArray === ['front', ...]
-// array.pop() --> delete from end
+
+/** array.pop() **/
+
+// delete from end
 val = myArray.pop(); // val === 'end' >< myArray ==> deleted 'end'
-// array.shift() --> delete from front
-val = myArray.shift(); // val === 'start' >< myArray ==> deleted 'front'
-// array.splice(start, delLength, addVals)
-val = myArray.splice(5, 1, "not", "null"); // val === [null] >< myArray ==> deleted null + added 'not', 'null'
+
+/** array.shift() **/
+
+// delete from front
+val = myArray.shift(); // val === 'front' >< myArray ==> deleted 'front'
+
+/** array.splice(start, delLength, addVals) **/
+
+// remove or replace existing elements and / or adding new elements in place
+val = myArray.splice(5, 1, "not", "null"); // val === [null] >< myArray ==> deleted null + added 'not', 'null' strings
+
 /* Important: 
   In common: replace existing array
   
@@ -430,7 +463,49 @@ val = myArray.sort((x, y) => {
 });
 
 console.log(myArray);
+
+/*** ITERATING OVER ARRAYS ***/
+/** array.forEach(function(item, index, array){}) function **/
+// Do NOT modify the array
+myArray.forEach(function(person) {
+  console.log(person);
+});
 console.clear();
+
+myArray.forEach(function(item, index, array) {
+  // --> can access index + full array
+  console.log(`${index + 1}/${array.length} : ${item}`);
+});
+console.clear();
+
+/** array.map(function(item){}) function **/
+// Creates and returns a new array
+val = myArray.map(function(item) {
+  return item.toString();
+}); // ["123", "2", "true", "false"]
+
+/** array.filter(function(item){}) function **/
+// Creates and returns a new array matching with function condition
+val = myArray.filter(function(item) {
+  return /ru/.test(item);
+}); // [true]
+
+/***
+ * Note: NODELIST
+ ***/
+addChapter("fundamentalsVars", "Note: NODELIST");
+/* 
+  Collections of nodes, usually returned by 
+  - properties such as Node.childNodes 
+  - and methods such as document.querySelectorAll()
+  --> less methods available than Array objects
+*/
+
+const chapters = document.querySelectorAll("li"); // NodeList(13)
+
+/** Array.from(myNodeList) **/
+// Create an array from a NodeList
+val = Array.from(chapters).pop(); // <li>note: nodeList</li>
 
 /***
  * OBJECT LITERALS
@@ -484,26 +559,38 @@ console.clear();
  * DATES & TIMES
  */
 addChapter("fundamentalsVars", "DATES & TIMES");
+// Dedicated format with dedicated methods (in Date.prototype)
 
-const today = new Date();
-let anotherDate = new Date("9-28-1985 11:22:33:44");
-anotherDate = new Date("9/28/1985 11:22:33:44");
-anotherDate = new Date("September 28 1985 11:22:33:44");
+const now = new Date(); // --> up to millisec of when code is executing
+val = typeof now; // object !
 
-//  Get values
-val = anotherDate.getMonth() + 1; // [0-11] + 1 --> 0 based value
-val = anotherDate.getDate();
-val = anotherDate.getDay(); // [0-6] --> 0 based value with Sunday = 0
-val = anotherDate.getFullYear(); // getYear() is deprecated
-val = anotherDate.getHours(); //getMinutes() getSeconds() getMilliseconds()
-val = anotherDate.getTime(); // time stamp (millisecs since 01/01/1970)
-val = anotherDate;
+/** US format = default for strings **/
+let usFormatDate = new Date("9/28/85");
+usFormatDate = new Date("9/27/1985");
+usFormatDate = new Date("9-26-85");
+usFormatDate = new Date("9-25-1985");
+// time can be added to any date format:
+usFormatDate = new Date("September 24 1985 11:22:33:44");
+val = usFormatDate;
 
-// Set values
-anotherDate.setMonth(11 - 1); // 0 based value
-anotherDate.setDate(24);
-anotherDate.setFullYear(1983);
-anotherDate.setHours(23); // setMinutes() setSeconds() setMilliseconds()
+/** EU format = need be reversed + FullYear in any strings **/
+let euFormatDate = new Date("1985/9/23");
+euFormatDate = new Date("1985-9-22");
+/** EU format = only format for arguments **/
+euFormatDate = new Date(1985, 8, 21, 11, 22, 33, 44); // ! Month = index = 0 based value
+val = euFormatDate;
 
-console.log(val);
-console.clear();
+/**  Get values **/
+val = euFormatDate.getFullYear(); // 1985 --> Note: getYear() is deprecated
+val = euFormatDate.getMonth() + 1; // 8 + 1 = 9 --> ! index = 0 based value ==> [0-11] + 1
+val = euFormatDate.getDate(); // 21 --> [1-31]
+val = euFormatDate.getDay(); // 6 = Saturday --> ! index = 0 based value with Sunday = 0 ==> [0-6]
+val = euFormatDate.getHours(); // ...getMinutes() getSeconds() getMilliseconds()
+val = euFormatDate.getTime(); // time stamp (millisecs since 01/01/1970)
+val = euFormatDate;
+
+/** Set values **/
+euFormatDate.setFullYear(1983); // Sept 21 1983
+euFormatDate.setMonth(11 - 1); // Nov 21 1983 --> ! Month 0 based value
+euFormatDate.setDate(24); // Nov 24 1983
+euFormatDate.setHours(12); // ...setMinutes() setSeconds() setMilliseconds()

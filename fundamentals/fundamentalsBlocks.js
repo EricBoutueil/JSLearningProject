@@ -79,6 +79,7 @@ switch (color) {
     break;
 }
 
+const today = new Date();
 switch (today.getDay()) {
   case 0:
     val = "Sunday";
@@ -155,22 +156,4 @@ for (let x in people) {
 }
 console.clear();
 
-/** array.forEach(function(item, index, array){}) function **/
-
-// Cleaner way
-people.forEach(function(person) {
-  console.log(person);
-});
-console.clear();
-
-people.forEach(function(person, index, array) {
-  // --> can access index + full array
-  console.log(`${index + 1}/${array.length} : ${person.name}`);
-});
-console.clear();
-
-/** array.map(function(item){}) function**/
-// Important: returns a different array
-val = people.map(function(person) {
-  return person.name;
-});
+/* Note: clearner way to iterate over arrays = .forEach() */
